@@ -10,9 +10,9 @@ class AutoEncoding
   subscriptions = null
 
   fire: ->
-
     # get active text editor
     @editor = atom.workspace.getActiveTextEditor()
+    return if not @editor?
 
     # get file path
     filePath = @editor.getPath()
@@ -39,7 +39,6 @@ class AutoEncoding
     if not @subscriptions?
       @subscriptions = new CompositeDisposable
       @subscriptions.add atom.workspace.onDidOpen =>
-        @autoEncoding = new AutoEncoding()
-        @autoEncoding.fire()
+        @fire()
     else
       @erase()
