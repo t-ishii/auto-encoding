@@ -1,0 +1,22 @@
+# See https://atom.io/docs/latest/hacking-atom-package-word-count#menus for more details
+# 'context-menu':
+#   'atom-text-editor': [
+#     {
+#       'label': 'Toggle auto-encoding'
+#       'command': 'auto-encoding:toggle'
+#     }
+#   ]
+'menu': [
+  {
+    'label': 'Packages'
+    'submenu': [
+      'label': 'Auto Encoding'
+      'submenu': [
+        {
+          'label': 'Toggle'
+          'command': 'auto-encoding:toggle'
+        }
+      ]
+    ]
+  }
+]

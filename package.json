@@ -1,0 +1,16 @@
+{
+  "name": "auto-encoding",
+  "main": "./lib/main",
+  "version": "0.0.0",
+  "description": "Auto detect",
+  "activationCommands": {
+    "atom-workspace": "auto-encoding:toggle"
+  },
+  "repository": "https://github.com/t-ishii/auto-encoding",
+  "license": "MIT",
+  "engines": {
+    "atom": ">=0.174.0 <2.0.0"
+  },
+  "dependencies": {
+  }
+}
