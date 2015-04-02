@@ -1,7 +1,7 @@
 {
   "name": "auto-encoding",
   "main": "./lib/main",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "Auto detect",
   "activationCommands": {
     "atom-workspace": "auto-encoding:toggle"
@@ -12,7 +12,7 @@
     "atom": ">=0.174.0 <2.0.0"
   },
   "dependencies": {
-      "iconv-lite": ">=0.4.7",
-      "jschardet": ">=1.1.1"
+    "iconv-lite": ">=0.4.7",
+    "jschardet": ">=1.1.1"
   }
 }
