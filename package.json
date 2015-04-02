@@ -1,7 +1,7 @@
 {
   "name": "auto-encoding",
   "main": "./lib/main",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Auto detect",
   "activationCommands": {
     "atom-workspace": "auto-encoding:toggle"
@@ -11,6 +11,5 @@
   "engines": {
     "atom": ">=0.174.0 <2.0.0"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
