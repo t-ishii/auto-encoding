@@ -11,5 +11,8 @@
   "engines": {
     "atom": ">=0.174.0 <2.0.0"
   },
-  "dependencies": {}
+  "dependencies": {
+      "iconv-lite": ">=0.4.7",
+      "jschardet": ">=1.1.1"
+  }
 }
