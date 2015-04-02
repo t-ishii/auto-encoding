@@ -13,8 +13,9 @@ module.exports = Main =
       @subscriptions ?= new CompositeDisposable
       @enc ?= new AutoEncoding()
       # event: open file
-      @subscriptions.add atom.workspace.onDidOpen =>
-        @enc.fire()
+      @subscriptions.add atom.workspace.onDidOpen => @enc.fire()
+      # event: changed active pane
+      @subscriptions.add atom.workspace.onDidChangeActivePaneItem => @enc.fire()
     else
       @subscriptions?.dispose()
       @subscriptions = null
