@@ -2,16 +2,20 @@
 AutoEncoding = require './auto-encoding'
 
 module.exports = Main =
-  autoEncoding: null
+  subscriptions: null
+  enc: null
 
-  activate: (state) ->
+  activate: ->
+    atom.commands.add 'atom-workspace', 'auto-encoding:toggle': => @toggle()
 
-    @autoEncoding = new AutoEncoding()
-
-    atom.commands.add 'atom-workspace',
-      'auto-encoding:toggle': => @autoEncoding.toggle()
-
-  deactivate: ->
-    @autoEncoding.erase()
-
-  serialize: ->
+  toggle: ->
+    if not @subscriptions?
+      @subscriptions ?= new CompositeDisposable
+      @enc ?= new AutoEncoding()
+      # event: open file
+      @subscriptions.add atom.workspace.onDidOpen =>
+        @enc.fire()
+    else
+      @subscriptions?.dispose()
+      @subscriptions = null
+      @enc = null

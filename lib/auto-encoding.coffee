@@ -1,13 +1,9 @@
-{CompositeDisposable} = require 'atom'
-
 fs = require 'fs'
 jschardet = require 'jschardet'
 iconv = require 'iconv-lite'
 
 module.exports =
 class AutoEncoding
-
-  subscriptions = null
 
   fire: ->
     # get active text editor
@@ -30,15 +26,3 @@ class AutoEncoding
         enc = enc.toLowerCase().replace /[^0-9a-z]|:\d{4}$/g, ''
         @editor.setEncoding(enc)
       )
-
-  erase: ->
-    @subscriptions?.dispose()
-    @subscriptions = null
-
-  toggle: ->
-    if not @subscriptions?
-      @subscriptions = new CompositeDisposable
-      @subscriptions.add atom.workspace.onDidOpen =>
-        @fire()
-    else
-      @erase()
