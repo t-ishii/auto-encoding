@@ -12,7 +12,6 @@ class AutoEncoding
 
     # get file path
     filePath = @editor.getPath()
-
     return if not fs.existsSync filePath
 
     # convert text
