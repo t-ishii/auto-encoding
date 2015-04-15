@@ -12,7 +12,6 @@ class AutoEncoding
 
     # get file path
     filePath = @editor.getPath()
-
     return if not fs.existsSync filePath
 
     # convert text
@@ -24,5 +23,7 @@ class AutoEncoding
         enc = 'utf8' if enc is 'ascii'
         return if not iconv.encodingExists enc
         enc = enc.toLowerCase().replace /[^0-9a-z]|:\d{4}$/g, ''
-        @editor?.setEncoding(enc)
-      )
+        nowEnc = @editor?.getEncoding() ? ''
+        if not new RegExp('^'+enc+'$', 'i').test nowEnc
+          @editor?.setEncoding(enc)
+    )
