@@ -1,7 +1,7 @@
 {
   "name": "auto-encoding",
   "main": "./lib/main",
-  "version": "0.3.9",
+  "version": "0.3.10",
   "description": "Auto detect",
   "activationCommands": {
     "atom-workspace": "auto-encoding:toggle"
