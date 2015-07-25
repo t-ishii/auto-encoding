@@ -32,7 +32,7 @@ module.exports = Main =
     # event: changed active pane
     @subscriptions.add atom.workspace.onDidChangeActivePaneItem => @enc.fire()
 
-  disenabled: ->
+  disabled: ->
     atom.notifications?.addSuccess 'auto-encoding: off'
     @subscriptions?.dispose()
     @subscriptions = null
@@ -42,4 +42,4 @@ module.exports = Main =
     if not @subscriptions?
       @enabled()
     else
-      @disenabled()
+      @disabled()
