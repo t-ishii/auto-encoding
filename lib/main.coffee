@@ -14,7 +14,7 @@ module.exports = Main =
 
   activate: ->
 
-    @commands = atom.commands.add 'atom-workspace', 'auto-encoding:toggle': =>
+    atom.commands.add 'atom-workspace', 'auto-encoding:toggle': =>
       @toggle()
 
     # always auto-detect
@@ -35,7 +35,6 @@ module.exports = Main =
   disenabled: ->
     atom.notifications?.addSuccess 'auto-encoding: off'
     @subscriptions?.dispose()
-    @commands?.dispose()
     @subscriptions = null
     @enc = null
 
