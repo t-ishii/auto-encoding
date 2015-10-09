@@ -22,8 +22,6 @@ module.exports = Main =
       @enabled()
 
   enabled: ->
-    atom.notifications?.addSuccess 'auto-encoding: on'
-
     @subscriptions ?= new CompositeDisposable
     @enc ?= new AutoEncoding()
 
@@ -33,7 +31,6 @@ module.exports = Main =
     @subscriptions.add atom.workspace.onDidChangeActivePaneItem => @enc.fire()
 
   disabled: ->
-    atom.notifications?.addSuccess 'auto-encoding: off'
     @subscriptions?.dispose()
     @subscriptions = null
     @enc = null
@@ -41,5 +38,7 @@ module.exports = Main =
   toggle: ->
     if not @subscriptions?
       @enabled()
+      atom.notifications?.addSuccess 'auto-encoding: on'
     else
       @disabled()
+      atom.notifications?.addSuccess 'auto-encoding: off'
