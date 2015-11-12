@@ -25,5 +25,9 @@ class AutoEncoding
         enc = enc.toLowerCase().replace /[^0-9a-z]|:\d{4}$/g, ''
         nowEnc = @editor?.getEncoding() ? ''
         if not new RegExp('^'+enc+'$', 'i').test nowEnc
+
+          if atom.config.get 'auto-encoding.warningWindows1252'
+            atom.notifications?.addWarning 'change encoding to windows1252'
+
           @editor?.setEncoding(enc)
     )
