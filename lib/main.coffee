@@ -10,7 +10,7 @@ module.exports = Main =
       title: 'Always auto detect'
       description: 'enabled from startup'
       type: 'boolean'
-      default: false
+      default: true
 
   activate: ->
 
