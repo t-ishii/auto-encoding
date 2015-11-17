@@ -23,10 +23,18 @@ class AutoEncoding
     filePath = @editor.getPath()
     return unless fs.existsSync(filePath)
 
+    # show warn message?
+    isShowMsgW1252 = atom.config.get 'auto-encoding.warningWindows1252'
+
     # convert text
     return fs.readFile filePath, (error, buffer) =>
       return if error?
       encoding =  detectEncoding(buffer)
       return unless iconv.encodingExists(encoding)
       encoding = encoding.toLowerCase().replace(/[^0-9a-z]|:\d{4}$/g, '')
-      @editor.setEncoding(encoding)
+      unless encoding is @editor.getEncoding()
+
+        if isShowMsgW1252 and encoding is 'windows1252'
+          atom.notifications?.addWarning 'change encoding to windows1252'
+
+        @editor.setEncoding(encoding)
