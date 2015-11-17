@@ -10,7 +10,8 @@ module.exports = Main =
       title: 'Always auto detect'
       description: 'enabled from startup'
       type: 'boolean'
-      default: false
+      default: true
+    # critical error word [ ✓ ]
     warningWindows1252:
       title: 'Show warning message when change encoding to "windows1252".'
       type: 'boolean'

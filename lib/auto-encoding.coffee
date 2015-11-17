@@ -5,6 +5,15 @@ iconv = require 'iconv-lite'
 module.exports =
 class AutoEncoding
 
+  # Detect file encoding.
+  #
+  # @param {Buffer} buffer
+  # @return {String} encoding
+  detectEncoding = (buffer) ->
+    {encoding} =  jschardet.detect(buffer) ? {}
+    encoding = 'utf8' if encoding is 'ascii'
+    encoding
+
   fire: ->
     # get active text editor
     @editor = atom.workspace.getActiveTextEditor()
@@ -12,22 +21,20 @@ class AutoEncoding
 
     # get file path
     filePath = @editor.getPath()
-    return if not fs.existsSync filePath
+    return unless fs.existsSync(filePath)
+
+    # show warn message?
+    isShowMsgW1252 = atom.config.get 'auto-encoding.warningWindows1252'
 
     # convert text
-    return fs.readFile(
-      filePath,
-      (error, buffer) =>
-        return if error isnt null
-        enc = (if (_ref = jschardet.detect buffer)? then _ref else {}).encoding
-        enc = 'utf8' if enc is 'ascii'
-        return if not iconv.encodingExists enc
-        enc = enc.toLowerCase().replace /[^0-9a-z]|:\d{4}$/g, ''
-        nowEnc = @editor?.getEncoding() ? ''
-        if not new RegExp('^'+enc+'$', 'i').test nowEnc
+    return fs.readFile filePath, (error, buffer) =>
+      return if error?
+      encoding =  detectEncoding(buffer)
+      return unless iconv.encodingExists(encoding)
+      encoding = encoding.toLowerCase().replace(/[^0-9a-z]|:\d{4}$/g, '')
+      unless encoding is @editor.getEncoding()
 
-          if atom.config.get 'auto-encoding.warningWindows1252'
-            atom.notifications?.addWarning 'change encoding to windows1252'
+        if isShowMsgW1252 and encoding is 'windows1252'
+          atom.notifications?.addWarning 'change encoding to windows1252'
 
-          @editor?.setEncoding(enc)
-    )
+        @editor.setEncoding(encoding)
