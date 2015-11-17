@@ -12,22 +12,13 @@ class AutoEncoding
 
     # get file path
     filePath = @editor.getPath()
-    return if not fs.existsSync filePath
+    return unless fs.existsSync(filePath)
 
     # convert text
-    return fs.readFile(
-      filePath,
-      (error, buffer) =>
-        return if error isnt null
-        enc = (if (_ref = jschardet.detect buffer)? then _ref else {}).encoding
-        enc = 'utf8' if enc is 'ascii'
-        return if not iconv.encodingExists enc
-        enc = enc.toLowerCase().replace /[^0-9a-z]|:\d{4}$/g, ''
-        nowEnc = @editor?.getEncoding() ? ''
-        if not new RegExp('^'+enc+'$', 'i').test nowEnc
-
-          if atom.config.get 'auto-encoding.warningWindows1252'
-            atom.notifications?.addWarning 'change encoding to windows1252'
-
-          @editor?.setEncoding(enc)
-    )
+    return fs.readFile filePath, (error, buffer) =>
+      return if error?
+      {encoding} =  jschardet.detect(buffer) ? {}
+      encoding = 'utf8' if encoding is 'ascii'
+      return unless iconv.encodingExists(encoding)
+      encoding = encoding.toLowerCase().replace(/[^0-9a-z]|:\d{4}$/g, '')
+      @editor.setEncoding(encoding)
