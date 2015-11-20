@@ -16,6 +16,13 @@ module.exports = Main =
       title: 'Show warning message when change encoding to "windows1252".'
       type: 'boolean'
       default: false
+    # divide buffer option
+    divideSize:
+      title: 'The number of the consideration.'
+      description: 'divide size of buffer'
+      type: 'number'
+      default: 1
+      minimum: 1
 
   activate: ->
 

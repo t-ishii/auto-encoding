@@ -25,7 +25,7 @@ class AutoEncoding
 
     encodings.forEach (enc) ->
       encMap[enc] = 0 unless encMap[enc]?
-      encMap[enc]++
+      encMap[enc]++ if enc?
       return
 
     for k, v of encMap
@@ -62,12 +62,15 @@ class AutoEncoding
     # show warn message?
     isShowMsgW1252 = atom.config.get 'auto-encoding.warningWindows1252'
 
+    # divide size
+    divideSize = atom.config.get 'auto-encoding.divideSize'
+
     # convert text
     return fs.readFile filePath, (error, buffer) =>
       return if error?
 
       encoding = getBestEncode(
-        divideBuffer(buffer, 3).map (buf) -> detectEncoding(buf)
+        divideBuffer(buffer, divideSize).map (buf) -> detectEncoding(buf)
       )
 
       return unless iconv.encodingExists(encoding)
