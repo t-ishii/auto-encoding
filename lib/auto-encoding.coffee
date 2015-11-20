@@ -23,9 +23,12 @@ class AutoEncoding
     encMap = {}
     max = 0
 
-    encodings.forEach (enc) ->
+    encodings
+    .filter (enc) ->
+      return enc?
+    .forEach (enc) ->
       encMap[enc] = 0 unless encMap[enc]?
-      encMap[enc]++ if enc?
+      encMap[enc]++
       return
 
     for k, v of encMap
