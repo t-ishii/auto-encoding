@@ -75,6 +75,6 @@ class AutoEncoding
 
       return unless iconv.encodingExists(encoding)
       encoding = encoding.toLowerCase().replace(/[^0-9a-z]|:\d{4}$/g, '')
-      unless encoding is @editor.getEncoding()
+      unless encoding is @editor?.getEncoding()
 
-        @editor.setEncoding(encoding)
+        @editor?.setEncoding(encoding)
