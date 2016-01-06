@@ -4,7 +4,7 @@ default "Auto Detect".
 
 ## Update
 
-* v0.5.1 fixed #4
+* v0.5.1 fixed #9
 * v0.5.0 Removed the windows1252 message.
 * v0.4.5 add divide size option.
 
