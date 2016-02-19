@@ -32,7 +32,7 @@ class AutoEncoding
       return
 
     for k, v of encMap
-      if max < v
+      if max < v or (max is v and k isnt 'utf8')
         max = v
         encoding = k
 
