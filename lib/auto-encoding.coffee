@@ -14,12 +14,34 @@ class AutoEncoding
     encoding = 'utf8' if encoding is 'ascii'
     encoding
 
+  # Get disallow encs.
+  #
+  # @return {Array.<String>} disallowList
+  getDisallowEncTypes = ->
+    loadSetting = atom.config.get 'auto-encoding.disallowEncTypes'
+    disallowList = []
+
+    unless /^(\s+)?$/.test loadSetting
+      disallowList = loadSetting.split(/,/).map (enc) ->
+        enc.replace(/\s/g, '').toLowerCase()
+
+    disallowList
+
   # Get best encoding.
   #
   # @param {Array.<String>} encodings
   # @return {String} encoding
   getBestEncode = (encodings) ->
-    encoding = 'utf8'
+
+    # reject disallow encs
+    disallowEncs = getDisallowEncTypes()
+    encodings = encodings.filter (enc) ->
+      disallowEncs.indexOf(
+        enc.toLowerCase().replace(/[^0-9a-z]|:\d{4}$/g, '')
+      ) is -1
+
+    # get default enc
+    encoding = atom.config.get 'core.fileEncoding'
     encMap = {}
     max = 0
 
@@ -32,7 +54,7 @@ class AutoEncoding
       return
 
     for k, v of encMap
-      if max < v or (max is v and k isnt 'utf8')
+      if max < v or (max is v and k isnt encoding)
         max = v
         encoding = k
 
