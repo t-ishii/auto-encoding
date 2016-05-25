@@ -18,6 +18,11 @@ module.exports = Main =
       type: 'number'
       default: 1
       minimum: 1
+    disallowEncTypes:
+      title: 'Disallow some encoding types'
+      description: 'example: windows1252, iso88591'
+      type: 'string'
+      default: ''
 
   activate: ->
 
