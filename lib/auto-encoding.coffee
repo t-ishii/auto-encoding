@@ -36,7 +36,7 @@ class AutoEncoding
     # reject disallow encs
     disallowEncs = getDisallowEncTypes()
     encodings = encodings.filter (enc) ->
-      disallowEncs.indexOf(
+      enc? and disallowEncs.indexOf(
         enc.toLowerCase().replace(/[^0-9a-z]|:\d{4}$/g, '')
       ) is -1
 
@@ -46,8 +46,6 @@ class AutoEncoding
     max = 0
 
     encodings
-    .filter (enc) ->
-      return enc?
     .forEach (enc) ->
       encMap[enc] = 0 unless encMap[enc]?
       encMap[enc]++
