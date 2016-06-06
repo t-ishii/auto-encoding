@@ -23,6 +23,11 @@ module.exports = Main =
       description: 'example: windows1252, iso88591'
       type: 'string'
       default: ''
+    forceEncTypes:
+      title: 'Force some encoding types'
+      description: 'example: windows1252:windows1251, iso88591:windows1251'
+      type: 'string'
+      default: ''
 
   activate: ->
 
