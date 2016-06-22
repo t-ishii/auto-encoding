@@ -38,7 +38,7 @@ module.exports = Main =
     @enc ?= new AutoEncoding()
 
     # event: open file
-    @subscriptions.add atom.workspace.onDidOpen => @enc.fire()
+    @subscriptions.add atom.workspace.observeTextEditors => @enc.fire()
     # event: changed active pane
     @subscriptions.add atom.workspace.onDidChangeActivePaneItem => @enc.fire()
 
