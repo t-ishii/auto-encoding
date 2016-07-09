@@ -73,6 +73,15 @@ class AutoEncoding
       else
         buffer.slice(start, end)
 
+  # is allow file
+  #
+  # @param {String} filePath
+  # @returns {Boolean} is allow file
+  isAllowFile = (filePath) ->
+    fileName = require('path').basename(filePath)
+    filterExt = atom.config.get 'auto-encoding.ignorePattern'
+    return filterExt is '' or not new RegExp(filterExt).test fileName
+
   fire: ->
     # get active text editor
     @editor = atom.workspace.getActiveTextEditor()
@@ -96,5 +105,4 @@ class AutoEncoding
       return unless iconv.encodingExists(encoding)
       encoding = encoding.toLowerCase().replace(/[^0-9a-z]|:\d{4}$/g, '')
       unless encoding is @editor?.getEncoding()
-
-        @editor?.setEncoding(encoding)
+        @editor?.setEncoding(encoding) if isAllowFile(@editor.getPath())

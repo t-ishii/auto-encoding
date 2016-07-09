@@ -23,6 +23,11 @@ module.exports = Main =
       description: 'example: windows1252, iso88591'
       type: 'string'
       default: ''
+    ignorePattern:
+      title: 'Ignore Pattern'
+      description: 'example: (txt|js)$'
+      type: 'string'
+      default: ''
 
   activate: ->
 
