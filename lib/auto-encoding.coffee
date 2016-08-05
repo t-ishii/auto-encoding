@@ -18,9 +18,6 @@ class AutoEncoding
       if forceEncMap.hasOwnProperty(key) and stripEncName(encoding) is stripEncName(key)
         encoding = value
 
-    console.log(forceEncMap)
-    console.log(encoding)
-
     stripEncName(encoding)
 
   # Get disallow encs.
@@ -36,9 +33,9 @@ class AutoEncoding
 
     disallowList
 
+  # Get forced encoding types
   #
-  #
-  #
+  # @return {Object} encMap
   getForceEncTypes = ->
     loadSetting = atom.config.get 'auto-encoding.forceEncTypes'
     encMap = {}
@@ -51,9 +48,9 @@ class AutoEncoding
 
     encMap
 
+  # Strip symbols from encoding name
   #
-  #
-  #
+  # @return {String}
   stripEncName = (name) ->
     name.toLowerCase().replace(/[^0-9a-z]|:\d{4}$/g, '')
 
