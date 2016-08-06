@@ -65,7 +65,7 @@ class AutoEncoding
     disallowEncs = getDisallowEncTypes()
     encodings = encodings.filter (enc) ->
       enc? and disallowEncs.indexOf(
-        enc.toLowerCase().replace(/[^0-9a-z]|:\d{4}$/g, '')
+        stripEncName(enc)
       ) is -1
 
     # get default enc
@@ -131,6 +131,6 @@ class AutoEncoding
       )
 
       return unless iconv.encodingExists(encoding)
-      encoding = encoding.toLowerCase().replace(/[^0-9a-z]|:\d{4}$/g, '')
+      encoding = stripEncName(encoding)
       unless encoding is @editor?.getEncoding()
         @editor?.setEncoding(encoding) if isAllowFile(@editor.getPath())
