@@ -12,7 +12,14 @@ class AutoEncoding
   detectEncoding = (buffer) ->
     {encoding} =  jschardet.detect(buffer) ? {}
     encoding = 'utf8' if encoding is 'ascii'
-    encoding
+
+    forceEncMap = getForceEncTypes()
+
+    for key, value of forceEncMap
+      if forceEncMap.hasOwnProperty(key) and stripEncName(encoding) is stripEncName(key)
+        encoding = value if value?
+
+    stripEncName(encoding)
 
   # Get disallow encs.
   #
@@ -26,6 +33,27 @@ class AutoEncoding
         enc.replace(/\s/g, '').toLowerCase()
 
     disallowList
+
+  # Get forced encoding types
+  #
+  # @return {Object} encMap
+  getForceEncTypes = ->
+    loadSetting = atom.config.get 'auto-encoding.forceEncTypes'
+    encMap = {}
+
+    if loadSetting.length
+      items = loadSetting.replace(' ', '').split(',')
+      items.forEach (item) ->
+        kv = item.split(':')
+        encMap[kv[0]] = kv[1]
+
+    encMap
+
+  # Strip symbols from encoding name
+  #
+  # @return {String}
+  stripEncName = (name) ->
+    name.toLowerCase().replace(/[^0-9a-z]|:\d{4}$/g, '')
 
   # Get best encoding.
   #
