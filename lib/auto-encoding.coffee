@@ -10,16 +10,16 @@ class AutoEncoding
   # @param {Buffer} buffer
   # @return {String} encoding
   detectEncoding = (buffer) ->
-    {encoding} =  jschardet.detect(buffer) ? {}
-    encoding = 'utf8' if encoding is 'ascii'
+    {encoding} =  jschardet.detect(buffer) ? { encoding: null }
+
+    encoding = encoding ? atom.config.get 'core.fileEncoding'
+    encoding = 'utf8' if stripEncName(encoding) is 'ascii'
 
     forceEncMap = getForceEncTypes()
+    if forceEncMap?[encoding]
+      encoding = stripEncName(forceEncMap[encoding])
 
-    for key, value of forceEncMap
-      if forceEncMap.hasOwnProperty(key) and stripEncName(encoding) is stripEncName(key)
-        encoding = value if value?
-
-    stripEncName(encoding)
+    encoding
 
   # Get disallow encs.
   #
@@ -133,4 +133,4 @@ class AutoEncoding
       return unless iconv.encodingExists(encoding)
       encoding = stripEncName(encoding)
       unless encoding is @editor?.getEncoding()
-        @editor?.setEncoding(encoding) if isAllowFile(@editor.getPath())
+        @editor?.setEncoding(encoding) if @editor? and isAllowFile(@editor.getPath())
