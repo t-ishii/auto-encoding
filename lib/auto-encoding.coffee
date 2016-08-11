@@ -13,11 +13,12 @@ class AutoEncoding
     {encoding} =  jschardet.detect(buffer) ? { encoding: null }
 
     encoding = encoding ? atom.config.get 'core.fileEncoding'
-    encoding = 'utf8' if stripEncName(encoding) is 'ascii'
+    encoding = stripEncName(encoding)
+    encoding = 'utf8' if encoding is 'ascii'
 
     forceEncMap = getForceEncTypes()
     if forceEncMap?[encoding]
-      encoding = stripEncName(forceEncMap[encoding])
+      encoding = forceEncMap[encoding]
 
     encoding
 
@@ -42,7 +43,7 @@ class AutoEncoding
     encMap = {}
 
     if loadSetting.length
-      items = loadSetting.replace(' ', '').split(',')
+      items = loadSetting.replace(/\s/g, '').split(',')
       items.forEach (item) ->
         kv = item.split(':')
         encMap[kv[0]] = kv[1]
