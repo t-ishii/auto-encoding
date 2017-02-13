@@ -9,7 +9,7 @@
     "atom": ">=0.174.0 <2.0.0"
   },
   "dependencies": {
-    "iconv-lite": "^0.4.13",
+    "iconv-lite": "^0.4.15",
     "jschardet": "^1.4.1"
   }
 }
