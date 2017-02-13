@@ -133,5 +133,6 @@ class AutoEncoding
 
       return unless iconv.encodingExists(encoding)
       encoding = stripEncName(encoding)
-      unless encoding is @editor?.getEncoding()
-        @editor?.setEncoding(encoding) if @editor? and isAllowFile(@editor.getPath())
+      editorPath = @editor?.getPath()
+      if encoding isnt @editor?.getEncoding() and editorPath?
+        @editor?.setEncoding(encoding) if @editor? and isAllowFile(editorPath)
