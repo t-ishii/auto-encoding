@@ -1,6 +1,8 @@
+# auto-encoding: utf8
 fs = require 'fs'
 jschardet = require 'jschardet'
 iconv = require 'iconv-lite'
+_ = require 'lodash'
 
 module.exports =
 class AutoEncoding
@@ -102,6 +104,21 @@ class AutoEncoding
       else
         buffer.slice(start, end)
 
+  # find encoding definition from comment
+  #
+  # @param {DomElement} view workspace view.
+  # @returns {String} encoding
+  getEncodingFromView = (view) ->
+    encoding = ''
+    pat = /auto-encoding:\s+(\w+)$/
+    _.each(view.querySelectorAll('.syntax--comment'), (node) =>
+      matcher = pat.exec(node.textContent)
+      if matcher
+        encoding = matcher[1]
+        return false
+    )
+    encoding
+
   # is allow file
   #
   # @param {String} filePath
@@ -125,11 +142,13 @@ class AutoEncoding
 
     # convert text
     return fs.readFile filePath, (error, buffer) =>
-      return if error?
+      return if error? or not @editor?
 
-      encoding = getBestEncode(
-        divideBuffer(buffer, divideSize).map (buf) -> detectEncoding(buf)
-      )
+      encoding = getEncodingFromView(atom.views.getView(@editor))
+      unless encoding
+        encoding = getBestEncode(
+          divideBuffer(buffer, divideSize).map (buf) -> detectEncoding(buf)
+        )
 
       return unless iconv.encodingExists(encoding)
       encoding = stripEncName(encoding)
