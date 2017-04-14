@@ -1,3 +1,4 @@
+# auto-encoding: utf8
 {CompositeDisposable} = require 'atom'
 AutoEncoding = require './auto-encoding'
 
