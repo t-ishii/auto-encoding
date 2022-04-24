@@ -128,9 +128,12 @@ class AutoEncoding
     filterExt = atom.config.get 'auto-encoding.ignorePattern'
     return filterExt is '' or not new RegExp(filterExt).test fileName
 
-  fire: ->
-    # get active text editor
-    @editor = atom.workspace.getActiveTextEditor()
+  # tryEncode
+  #
+  # @param {Editor} editor
+  # @returns {null} nothing
+  tryEncode = (mEditor) ->
+    @editor = mEditor
     return if not @editor?
 
     # get file path
@@ -155,3 +158,7 @@ class AutoEncoding
       editorPath = @editor?.getPath()
       if encoding isnt @editor?.getEncoding() and editorPath?
         @editor?.setEncoding(encoding) if @editor? and isAllowFile(editorPath)
+
+  fire: ->
+    # get active text editor
+    tryEncode(atom.workspace.getActiveTextEditor())
