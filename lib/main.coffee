@@ -50,8 +50,8 @@ module.exports = Main =
 
     # event: open file
     @subscriptions.add atom.workspace.observeTextEditors => @enc.fire()
-    # event: changed active pane
-    @subscriptions.add atom.workspace.onDidChangeActivePaneItem => @enc.fire()
+    # event: changed active pane and add texteditor
+    @subscriptions.add atom.workspace.onDidChangeActiveTextEditor => @enc.fire()
 
   disabled: ->
     @subscriptions?.dispose()
